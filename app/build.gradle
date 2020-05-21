@@ -20,6 +20,11 @@ android {
                 cppFlags ""
             }
         }
+
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     buildTypes {
@@ -35,6 +40,11 @@ android {
             version "3.10.2"
         }
     }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -46,4 +56,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 }
