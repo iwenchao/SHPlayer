@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+//def platformVersion = 24      // openGLES 3.2 min api level
+def platformVersion = 21    // 18: openGLES 3 min api level
+// def platformVersion = 12    //openGLES 2 min api level
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -17,7 +21,9 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-std=c++11"
+                arguments "-DANDROID_PLATFORM_LEVEL=${platformVersion}"
+                "-DANDROID_TOOLCHAIN=clang"
             }
         }
 

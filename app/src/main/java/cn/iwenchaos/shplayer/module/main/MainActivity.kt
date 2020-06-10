@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.iwenchaos.shplayer.R
 import cn.iwenchaos.shplayer.base.BaseActivity
 import cn.iwenchaos.shplayer.databinding.ActivityMainBinding
+import cn.iwenchaos.shplayer.module.core.android.SHPlayerActivity
 import cn.iwenchaos.shplayer.module.main.vm.MainViewModel
+import cn.iwenchaos.shplayer.util.startSettingWifi
 import kotlinx.android.synthetic.main.main_recycler_list_item.view.*
 
 class MainActivity : BaseActivity() {
@@ -31,15 +33,32 @@ class MainActivity : BaseActivity() {
 
         viewDataBinding?.recyclerView?.run {
             layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
-            adapter = ItemAdapter(mainViewModel?.getEntranceList())
+            adapter = ItemAdapter(mainViewModel?.getEntranceList()).apply {
+                onItemClickListener = object : ItemAdapter.OnItemClickListener {
+                    override fun onItemClicked(position: Int, item: String?) {
+                        route(position)
+                    }
+
+                }
+            }
         }
 
 
     }
 
 
+    private fun route(position: Int) {
+        when (position) {
+//            0 -> this.startSettingWifi()
+            0 -> SHPlayerActivity.start(this)
+
+        }
+    }
+
+
     class ItemAdapter(private val items: MutableList<String>?) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        var onItemClickListener: OnItemClickListener? = null
 
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -53,7 +72,15 @@ class MainActivity : BaseActivity() {
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            holder.itemView.tvItem.text = items?.get(position)
+            val content = items?.get(position)
+            holder.itemView.tvItem.text = content
+            holder.itemView.setOnClickListener{
+                onItemClickListener?.onItemClicked(position,content)
+            }
+        }
+
+        interface OnItemClickListener {
+            fun onItemClicked(position: Int, item: String?)
         }
 
     }

@@ -13,7 +13,7 @@ class SHPlayerApplication : Application() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-
+        BaseContext.appContext = this
     }
 
 
